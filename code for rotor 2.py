@@ -97,3 +97,23 @@ for n in range(nt):
 average_temperature = np.mean(T)
 
 print("\nFinal average temperature over the entire rotor volume after braking is:", average_temperature, "°C")
+
+ Generate plot
+radial_dist = np.linspace(0, R, nr)
+angular_dist = np.linspace(0, 2 * np.pi, ntheta)
+R_grid, Theta_grid = np.meshgrid(radial_dist, angular_dist)
+temperature_distribution = T[:, :, nz // 2]  # Slice at the mid-plane
+
+# Convert polar coordinates (R, Theta) to Cartesian for plotting
+X = R_grid * np.cos(Theta_grid)
+Y = R_grid * np.sin(Theta_grid)
+
+plt.figure(figsize=(8, 6))
+plt.contourf(X, Y, temperature_distribution.T, cmap="hot")
+plt.colorbar(label="Temperature (°C)")
+plt.xlabel("X (m)")
+plt.ylabel("Y (m)")
+plt.title("Temperature Distribution Across the Brake Rotor")
+plt.grid(True)
+plt.axis("equal")  # Ensure equal scaling
+plt.show()
